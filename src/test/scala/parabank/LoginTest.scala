@@ -23,13 +23,14 @@ class LoginTest extends Simulation{
   // 3 Load Scenario
   setUp(
     scn.inject(
-      rampUsers(100).during(2.minutes),       // carga normal
-      constantConcurrentUsers(100).during(5.minutes), // mantener carga para ver luego cómo se comporta durante ese tiempo
-      rampConcurrentUsers(100).to(200).during(2.minutes), // escalar a carga pico
-      constantConcurrentUsers(200).during (5.minutes)       // mantener la carga pico para ver su comportamiento también
+      rampUsers(100).during(2),  // carga normal
+      constantConcurrentUsers(100).during(5), // mantener carga para ver luego cómo se comporta durante ese tiempo
+      rampConcurrentUsers(100).to(200).during(2), // escalar a carga pico
+      constantConcurrentUsers(200).during (5)  // mantener la carga pico para ver su comportamiento también
     )
   )
 
 
 }
+
 
