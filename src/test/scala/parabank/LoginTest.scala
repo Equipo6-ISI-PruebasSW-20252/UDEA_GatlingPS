@@ -1,6 +1,7 @@
 package parabank
 
 import io.gatling.core.Predef._
+import io.gatling.core.controller.inject.Inject._
 import io.gatling.http.Predef._
 import parabank.Data._
 
