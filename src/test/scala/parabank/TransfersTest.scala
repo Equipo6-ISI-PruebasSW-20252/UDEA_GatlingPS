@@ -7,7 +7,7 @@ import parabank.Data._
 class TransfersTest extends Simulation{
 
 
-  val feeder = csv("transfers.csv").circular
+  val feeder = csv("data/transfers.csv").circular
 
   // 1 Http Conf
   val httpConf = http.baseUrl(url)
