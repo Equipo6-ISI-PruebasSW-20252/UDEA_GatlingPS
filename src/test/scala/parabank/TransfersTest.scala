@@ -7,7 +7,7 @@ import parabank.Data._
 class TransfersTest extends Simulation{
 
 
-  val feeder = csv("data/feeder.csv").circular
+  val feeder = csv("data/transfers.csv").circular
 
   // 1 Http Conf
   val httpConf = http.baseUrl(url)
@@ -19,10 +19,10 @@ class TransfersTest extends Simulation{
   val scn = scenario("Transferencias simultáneas")
     .feed(feeder)
     .exec(http("Transferencias simultáneas")
-      .post(s"/transfer")
-      .queryParam("fromAccountId", "${origen}")
-      .queryParam("toAccountId", "${destino}")  
-      .queryParam("amount", "${cantidad}")
+      .post("/transfer")
+      .queryParam("fromAccountId", "${fromAccountId}")
+      .queryParam("toAccountId", "${toAccountId}")  
+      .queryParam("amount", "${amount}")
       .check(status.is(200))
     )
 

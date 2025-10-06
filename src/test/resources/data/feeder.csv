@@ -1,2 +1,2 @@
-origen,destino,cantidad
-12345, 12456, 1
+fromAccountId,toAccountId,amount
+32436,12456,1
