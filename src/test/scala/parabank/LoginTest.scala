@@ -28,8 +28,7 @@ class LoginTest extends Simulation{
       rampConcurrentUsers(100).to(200).during(10.toSeconds), // escalar a carga pico
       constantConcurrentUsers(200).during(30.toSeconds)  // mantener la carga pico para ver su comportamiento también
     )
-  )
-
+  ).protocols(httpConf)
 
 }
 
