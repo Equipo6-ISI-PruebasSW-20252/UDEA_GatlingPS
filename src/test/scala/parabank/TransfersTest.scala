@@ -20,9 +20,9 @@ class TrabsfersTest extends Simulation{
     .feed(feeder)
     .exec(http("Transferencias simultáneas")
       .post(s"/transfer")
-      .queryParam("fromAccountId", origen)
-      .queryParam("toAccountId", destino)  
-      .queryParam("amount", cantidad)
+      .queryParam("fromAccountId", "${origen}")
+      .queryParam("toAccountId", "${destino}")  
+      .queryParam("amount", "${cantidad}")
       .check(status.is(200))
     )
 
