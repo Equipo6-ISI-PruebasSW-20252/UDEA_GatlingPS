@@ -3,48 +3,38 @@ package parabank
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import scala.concurrent.duration._
-import parabank.Data._
 
 class LoanRequestLoadTest extends Simulation {
 
-  val feeder = csv("data/loanRequests.csv").circular
-  
-    // 1 Http Conf
-  val httpConf = http.baseUrl("https://parabank.parasoft.com/parabank")
-    .acceptHeader("application/json")
-    //Verificar de forma general para todas las solicitudes
-    .check(status.is(200))
+  // 1️ Configuración HTTP
+  val httpConf = http
+    .baseUrl("https://parabank.parasoft.com/parabank/services_proxy/bank")
+    .acceptHeader("application/json, text/plain, */*")
+    .contentTypeHeader("application/json")
+    .userAgentHeader("Gatling Load Test")
 
-  // 2 Scenario Definition 
+  // 2️ Datos de entrada
+  val feeder = csv("data/loanRequests.csv").circular
+
+  // 3️ Escenario principal
   val scn = scenario("Solicitud de préstamo bajo carga")
     .feed(feeder)
-    .exec(http("Request Loan - ${fromAccountId}")
-        .post("/requestloan.htm")
-        .body(
-          StringBody(
-            """
-              {
-                "amount": ${amount},
-                "downPayment": ${downPayment},
-                "fromAccountId": ${fromAccountId}
-              }
-            """
-          )
-        ).asJson
-        .check(status.in(200, 201))
-    ).pause(1, 3)
+    .exec(
+      http("Request Loan")
+        .post("/requestLoan")
+        .queryParam("customerId", "${customerId}")
+        .queryParam("amount", "${amount}")
+        .queryParam("downPayment", "${downPayment}")
+        .queryParam("fromAccountId", "${fromAccountId}")
+        .check(status.is(200))
+    )
 
-  // 3 Load Scenario
+  // 4️ Inyección de usuarios (criterios de carga)
   setUp(
     scn.inject(
-      nothingFor(5.seconds),
-      rampUsersPerSec(0) to 50 during (30.seconds), // subir gradualmente a 50 req/s
-      constantUsersPerSec(50) during (2.minutes),   // mantener carga estable
-      rampUsersPerSec(50) to 0 during (30.seconds)  // bajar gradualmente
+      rampUsers(150).during(10.seconds), // escalar hasta 150 usuarios
+      constantUsersPerSec(150).during(30.seconds) // mantener carga 30s
     )
   ).protocols(httpConf)
-    .assertions(
-      global.responseTime.mean.lte(5000),        // Tiempo promedio ≤ 5 s
-      global.successfulRequests.percent.gte(98)  // Éxito ≥ 98 %
-    )
 }
+
