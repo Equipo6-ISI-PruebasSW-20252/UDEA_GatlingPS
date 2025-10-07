@@ -38,9 +38,9 @@ class LoanRequestLoadTest extends Simulation {
   setUp(
     scn.inject(
       nothingFor(5.seconds),
-      rampConcurrentUsers(0) to (150) during (30.seconds), // subida progresiva
-      constantConcurrentUsers(150) during (3.minutes),     // carga estable
-      rampConcurrentUsers(150) to (0) during (30.seconds)  // bajada
+      rampUsersPerSec(0) to 50 during (30.seconds), // subir gradualmente a 50 req/s
+      constantUsersPerSec(50) during (2.minutes),   // mantener carga estable
+      rampUsersPerSec(50) to 0 during (30.seconds)  // bajar gradualmente
     )
   ).protocols(httpConf)
     .assertions(
