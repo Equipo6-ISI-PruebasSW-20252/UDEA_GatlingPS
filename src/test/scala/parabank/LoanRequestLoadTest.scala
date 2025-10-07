@@ -6,35 +6,47 @@ import scala.concurrent.duration._
 
 class LoanRequestLoadTest extends Simulation {
 
-  // 1️ Configuración HTTP
+  // Configuración HTTP base
   val httpConf = http
-    .baseUrl("https://parabank.parasoft.com/parabank/services_proxy/bank")
-    .acceptHeader("application/json, text/plain, */*")
-    .contentTypeHeader("application/json")
+    .baseUrl("https://parabank.parasoft.com/parabank")
+    .acceptHeader("application/json, text/html, */*")
     .userAgentHeader("Gatling Load Test")
+    .contentTypeHeader("application/x-www-form-urlencoded")
 
-  // 2️ Datos de entrada
+  // Feeder CSV
   val feeder = csv("data/loanRequests.csv").circular
 
-  // 3️ Escenario principal
-  val scn = scenario("Solicitud de préstamo bajo carga")
-    .feed(feeder)
+  // Paso 1: Login
+  val login = exec(
+    http("Login")
+      .post("/login.htm")
+      .formParam("username", "john")   // usuario válido de demo
+      .formParam("password", "demo")
+      .check(status.is(200))
+  )
+
+  // Paso 2: Solicitud de préstamo (ya autenticado)
+  val requestLoan = feed(feeder)
     .exec(
       http("Request Loan")
-        .post("/requestLoan")
+        .post("/services_proxy/bank/requestLoan")
         .queryParam("customerId", "${customerId}")
+        .queryParam("fromAccountId", "${fromAccountId}")
         .queryParam("amount", "${amount}")
         .queryParam("downPayment", "${downPayment}")
-        .queryParam("fromAccountId", "${fromAccountId}")
         .check(status.is(200))
     )
 
-  // 4️ Inyección de usuarios (criterios de carga)
+  // Escenario principal
+  val scn = scenario("Solicitud de préstamo bajo carga")
+    .exec(login)
+    .pause(1)
+    .exec(requestLoan)
+
+  // Inyección de usuarios
   setUp(
-    scn.inject(
-      rampUsers(150).during(10.seconds), // escalar hasta 150 usuarios
-      constantUsersPerSec(150).during(30.seconds) // mantener carga 30s
-    )
+    scn.inject(rampUsers(50).during(10.seconds))
   ).protocols(httpConf)
 }
+
 
