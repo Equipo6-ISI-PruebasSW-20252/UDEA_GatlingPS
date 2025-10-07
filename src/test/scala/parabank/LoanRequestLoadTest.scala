@@ -10,7 +10,7 @@ class LoanRequestLoadTest extends Simulation {
   val feeder = csv("data/loanRequests.csv").circular
   
     // 1 Http Conf
-  val httpConf = http.baseUrl(url)
+  val httpConf = http.baseUrl("https://parabank.parasoft.com/parabank")
     .acceptHeader("application/json")
     //Verificar de forma general para todas las solicitudes
     .check(status.is(200))
@@ -19,7 +19,7 @@ class LoanRequestLoadTest extends Simulation {
   val scn = scenario("Solicitud de préstamo bajo carga")
     .feed(feeder)
     .exec(http("Request Loan - ${fromAccountId}")
-        .post("/requestloan")
+        .post("/requestloan.htm")
         .body(
           StringBody(
             """
