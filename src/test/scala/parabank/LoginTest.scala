@@ -15,7 +15,7 @@ class LoginTest extends Simulation{
   // 2 Scenario Definition
   val scn = scenario("Login").
     exec(http("login")
-      .get(s"/login/$username/$password")
+      .get(s"/login/john/demo")
        //Recibir información de la cuenta
       .check(status.is(200))
     )

@@ -13,9 +13,19 @@
 
     <gatling.version>3.3.1</gatling.version>
     <gatling-maven-plugin.version>3.0.5</gatling-maven-plugin.version>
+    <scala.version>2.12.8</scala.version>
+    <scala-maven-plugin.version>4.4.0</scala-maven-plugin.version>
   </properties>
 
   <dependencies>
+    <!-- Scala dependencies -->
+    <dependency>
+      <groupId>org.scala-lang</groupId>
+      <artifactId>scala-library</artifactId>
+      <version>${scala.version}</version>
+    </dependency>
+    
+    <!-- Gatling dependencies -->
     <dependency>
       <groupId>io.gatling.highcharts</groupId>
       <artifactId>gatling-charts-highcharts</artifactId>
@@ -35,13 +45,23 @@
 
   <build>
     <plugins>
+      <!-- Gatling Maven Plugin -->
       <plugin>
         <groupId>io.gatling</groupId>
         <artifactId>gatling-maven-plugin</artifactId>
         <version>${gatling-maven-plugin.version}</version>
         <configuration>
           <runMultipleSimulations>true</runMultipleSimulations>
+               <simulationClass>parabank.CorrectedPaymentTest</simulationClass>
         </configuration>
+        <executions>
+          <execution>
+            <id>gatling-test</id>
+            <goals>
+              <goal>test</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
