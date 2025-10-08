@@ -4,7 +4,10 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import parabank.Data._
 
-class LoginTest extends Simulation{
+class TransfersTest extends Simulation{
+
+
+  val feeder = csv("data/feeder.csv").circular
 
   // 1 Http Conf
   val httpConf = http.baseUrl(url)
@@ -13,24 +16,24 @@ class LoginTest extends Simulation{
     .check(status.is(200))
 
   // 2 Scenario Definition
-  val scn = scenario("Login").
-    exec(http("login")
-      .get(s"/login/john/demo")
-       //Recibir información de la cuenta
+  val scn = scenario("Transferencias simultáneas")
+    .feed(feeder)
+    .exec(http("Transferencias simultáneas")
+      .post("/transfer")
+      .queryParam("fromAccountId", "${fromAccountId}")
+      .queryParam("toAccountId", "${toAccountId}")  
+      .queryParam("amount", "${amount}")
       .check(status.is(200))
     )
 
   // 3 Load Scenario
   setUp(
     scn.inject(
-      rampUsers(100).during(10), // carga normal
-      constantUsersPerSec(100).during(30), // mantener carga para ver luego cómo se comporta durante ese tiempo
+      rampUsers(150).during(10),
+      constantUsersPerSec(100).during(30),
       rampUsers(200).during(10), // escalar a carga pico
       constantUsersPerSec(200).during(30) // mantener la carga pico para ver su comportamiento también
     )
   ).protocols(httpConf);
 
 }
-
-
-
