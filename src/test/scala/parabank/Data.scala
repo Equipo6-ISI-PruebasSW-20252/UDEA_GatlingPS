@@ -37,3 +37,4 @@ object Data{
     def getRandomAmount: Int = paymentAmounts(Random.nextInt(paymentAmounts.length))
 
 }
+
