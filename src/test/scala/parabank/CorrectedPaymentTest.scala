@@ -35,7 +35,7 @@ class CorrectedPaymentTest extends Simulation {
     .shareConnections // Compartir conexiones para mejor rendimiento
 
   // Datos de prueba para usuarios
-  val feeder = csv("data.csv").circular
+  val feeder = csv("data/feeder.csv").circular
 
   // Escenario de login
   val loginScenario = scenario("Login Scenario")

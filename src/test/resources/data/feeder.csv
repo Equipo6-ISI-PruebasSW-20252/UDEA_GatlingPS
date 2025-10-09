@@ -1,2 +1,4 @@
-fromAccountId,toAccountId,amount
-32436,12456,1
+username,password,fromAccount,toAccount,amount,payeeName,address,city,state,zipCode,phoneNumber,accountNumber
+john,123,32436,12456,100,John Doe,123 Main St,Anytown,CA,12345,555-1234,123456789
+jane,456,32437,12457,200,Jane Smith,456 Oak Ave,Somewhere,NY,67890,555-5678,987654321
+bob,789,32438,12458,150,Bob Johnson,789 Pine Rd,Elsewhere,TX,54321,555-9012,456789123
