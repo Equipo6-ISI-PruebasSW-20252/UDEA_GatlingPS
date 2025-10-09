@@ -88,7 +88,7 @@ class CorrectedPaymentTest extends Simulation {
       .check(css("h1.title", "text").exists))
 
   // Patrón de carga optimizado para servicios externos
-  val loadPattern = Seq(
+  val loadPattern = List(
     loginScenario
       .inject(
         rampUsers(20).during(60.seconds), // Carga gradual inicial
@@ -116,7 +116,7 @@ class CorrectedPaymentTest extends Simulation {
   )
 
   // Configuración de la simulación con aserciones ultra permisivas
-  setUp(loadPattern)
+  setUp(loadPattern: _*)
     .protocols(httpConf)
     .assertions(
       // Criterios AJUSTADOS de rendimiento - más realistas para servicios externos
