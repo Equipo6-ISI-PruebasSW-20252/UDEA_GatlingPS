@@ -166,6 +166,6 @@ class CorrectedPaymentTest extends Simulation {
       
       // Validaciones de historial (nuevas)
       details("Get Transaction History").responseTime.max.lt(3000),
-      // details("Get Transaction History").successfulRequests.percent.gt(95.0)
+      details("Get Transaction History").successfulRequests.percent.gt(95.0)
     )
 }
