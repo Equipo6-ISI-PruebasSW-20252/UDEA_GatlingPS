@@ -25,7 +25,7 @@ object Data{
     )
     
     // Account numbers for testing
-    val accountNumbers = Array("12345", "67890", "54321", "98765", "11111")
+    val accountNumbers = Array("35544", "35655", "35766", "35877", "35988")
     
     // Amounts for payments (in cents to avoid decimals)
     val paymentAmounts = Array(5000, 7500, 10000, 12500, 15000) // $50-$150
@@ -35,4 +35,5 @@ object Data{
     def getRandomService: (String, String) = paymentServices(Random.nextInt(paymentServices.length))
     def getRandomAccount: String = accountNumbers(Random.nextInt(accountNumbers.length))
     def getRandomAmount: Int = paymentAmounts(Random.nextInt(paymentAmounts.length))
+
 }
