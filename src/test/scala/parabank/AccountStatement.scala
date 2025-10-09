@@ -23,7 +23,7 @@ class AccountStatementTest extends Simulation{
       .check(status.is(200))
     )
 
-  // 3 Load Scenario  
+  // 3 Load Scenario  -
  setUp(
   scn.inject(
     rampConcurrentUsers(0).to(100).during(10),
