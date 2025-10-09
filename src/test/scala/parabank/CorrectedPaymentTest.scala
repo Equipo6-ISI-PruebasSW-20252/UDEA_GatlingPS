@@ -88,31 +88,32 @@ class CorrectedPaymentTest extends Simulation {
       .check(css("h1.title", "text").exists))
 
   // Patrón de carga optimizado para servicios externos
-  val loadPattern = 
+  val loadPattern = Seq(
     loginScenario
       .inject(
         rampUsers(20).during(60.seconds), // Carga gradual inicial
         constantUsersPerSec(5).during(120.seconds), // Carga constante moderada
         rampUsers(0).during(60.seconds) // Descenso gradual
-      ) ++
+      ),
     transferScenario
       .inject(
         rampUsers(15).during(60.seconds),
         constantUsersPerSec(3).during(120.seconds),
         rampUsers(0).during(60.seconds)
-      ) ++
+      ),
     billPayScenario
       .inject(
         rampUsers(10).during(60.seconds),
         constantUsersPerSec(2).during(120.seconds),
         rampUsers(0).during(60.seconds)
-      ) ++
+      ),
     historyValidationScenario
       .inject(
         rampUsers(25).during(60.seconds),
         constantUsersPerSec(4).during(120.seconds),
         rampUsers(0).during(60.seconds)
       )
+  )
 
   // Configuración de la simulación con aserciones ultra permisivas
   setUp(loadPattern)
