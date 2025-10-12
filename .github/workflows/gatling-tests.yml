@@ -22,7 +22,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Cache Maven dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
@@ -32,7 +32,7 @@ jobs:
         run: mvn gatling:test -Dgatling.simulationClass=parabank.LoginPerformanceTest
 
       - name: Upload Login Test Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: login-performance-report
@@ -54,7 +54,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Cache Maven dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
@@ -64,7 +64,7 @@ jobs:
         run: mvn gatling:test -Dgatling.simulationClass=parabank.TransferPerformanceTest
 
       - name: Upload Transfer Test Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: transfer-performance-report
@@ -86,7 +86,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Cache Maven dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
@@ -96,7 +96,7 @@ jobs:
         run: mvn gatling:test -Dgatling.simulationClass=parabank.AccountStatementPerformanceTest
 
       - name: Upload Statement Test Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: statement-performance-report
@@ -118,7 +118,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Cache Maven dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
@@ -128,7 +128,7 @@ jobs:
         run: mvn gatling:test -Dgatling.simulationClass=parabank.LoanRequestPerformanceTest
 
       - name: Upload Loan Test Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: loan-performance-report
@@ -150,7 +150,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Cache Maven dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
@@ -160,7 +160,7 @@ jobs:
         run: mvn gatling:test -Dgatling.simulationClass=parabank.BillPayPerformanceTest
 
       - name: Upload Bill Pay Test Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: billpay-performance-report
